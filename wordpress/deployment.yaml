@@ -2,7 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql-config
-  namespace: wordpress
 data:
   MYSQL_DATABASE: wp_db
   MYSQL_USER: admin
@@ -11,7 +10,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mysql-secret
-  namespace: wordpress
 type: Opaque
 stringData:
   MYSQL_ROOT_PASSWORD: your-root-password
@@ -21,7 +19,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: wordpress-config
-  namespace: wordpress
 data:
   WORDPRESS_DB_HOST: mysql-service:3306
   WORDPRESS_DB_USER: admin
@@ -31,7 +28,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: wordpress-secret
-  namespace: wordpress
 type: Opaque
 stringData:
   WORDPRESS_DB_PASSWORD: your-admin-password
@@ -40,7 +36,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
-  namespace: wordpress
 spec:
   selector:
     app: mysql
@@ -53,7 +48,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress-service
-  namespace: wordpress
 spec:
   selector:
     app: wordpress
@@ -96,7 +90,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
-  namespace: wordpress
 spec:
   accessModes:
     - ReadWriteOnce
@@ -110,7 +103,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: wordpress-pvc
-  namespace: wordpress
 spec:
   accessModes:
     - ReadWriteOnce
@@ -124,7 +116,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: wordpress
 spec:
   replicas: 1
   selector:
@@ -157,7 +148,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
-  namespace: wordpress
 spec:
   replicas: 1
   selector:
