@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: mysql
   namespace: wordpress
-  labels:
-    app: mysql
 spec:
   replicas: 1
   selector:
@@ -17,7 +15,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:latest
+        image: mysql:5.7
         envFrom:
         - configMapRef:
             name: mysql-config
@@ -25,3 +23,10 @@ spec:
             name: mysql-secret
         ports:
         - containerPort: 3306
+        volumeMounts:
+        - name: mysql-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-volume
+        persistentVolumeClaim:
+          claimName: mysql-pvc
