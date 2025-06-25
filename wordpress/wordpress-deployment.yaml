@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: wordpress
   namespace: wordpress
-  labels:
-    app: wordpress
 spec:
   replicas: 1
   selector:
@@ -17,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wordpress
-        image: wordpress:php8.3
+        image: wordpress:6.5-php8.3-apache
         envFrom:
         - configMapRef:
             name: wordpress-config
@@ -25,3 +23,17 @@ spec:
             name: wordpress-secret
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wordpress-pvc
