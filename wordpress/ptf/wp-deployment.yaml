@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calid-wordpress
+  namespace: calid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calid-wordpress
+  template:
+    metadata:
+      labels:
+        app: calid-wordpress
+    spec:
+      containers:
+      - name: calid-wordpress
+        image: wordpress:6.5-php8.3-apache
+        envFrom:
+        - configMapRef:
+            name: calid-wp-config
+        - secretRef:
+            name: calid-wp-secret
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        volumeMounts:
+        - name: wp-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: calid-wp-persistent-storage
+        persistentVolumeClaim:
+          claimName: calid-wp-pvc

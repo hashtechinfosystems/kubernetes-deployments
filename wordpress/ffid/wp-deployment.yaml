@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ffid-wordpress
+  namespace: ffid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ffid-wordpress
+  template:
+    metadata:
+      labels:
+        app: ffid-wordpress
+    spec:
+      containers:
+      - name: ffid-wordpress
+        image: wordpress:6.5-php8.3-apache
+        envFrom:
+        - configMapRef:
+            name: ffid-wp-config
+        - secretRef:
+            name: ffid-wp-secret
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: ffid-wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: ffid-wp-pvc

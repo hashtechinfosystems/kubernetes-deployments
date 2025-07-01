@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calid-mysql
+  namespace: calid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calid-mysql
+  template:
+    metadata:
+      labels:
+        app: calid-mysql
+    spec:
+      containers:
+      - name: calid-mysql
+        image: mysql:5.7
+        envFrom:
+        - configMapRef:
+            name: mysql-config
+        - secretRef:
+            name: mysql-secret
+        ports:
+        - containerPort: 3306
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        volumeMounts:
+        - name: calid-mysql-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: calid-mysql-volume
+        persistentVolumeClaim:
+          claimName: calid-mysql-pvc

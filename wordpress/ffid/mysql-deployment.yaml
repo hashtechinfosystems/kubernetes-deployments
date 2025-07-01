@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ffid-mysql
+  namespace: ffid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ffid-mysql
+  template:
+    metadata:
+      labels:
+        app: ffid-mysql
+    spec:
+      containers:
+      - name: ffid-mysql
+        image: mysql:5.7
+        envFrom:
+        - configMapRef:
+            name: mysql-config
+        - secretRef:
+            name: mysql-secret
+        ports:
+        - containerPort: 3306
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        volumeMounts:
+        - name: ffid-mysql-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: ffid-mysql-volume
+        persistentVolumeClaim:
+          claimName: ffid-mysql-pvc

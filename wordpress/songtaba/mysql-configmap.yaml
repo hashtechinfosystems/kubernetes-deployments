@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: calid
+data:
+  MYSQL_DATABASE: calid_db
+  MYSQL_USER: admin

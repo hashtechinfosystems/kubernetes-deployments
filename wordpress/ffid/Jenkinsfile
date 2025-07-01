@@ -1,0 +1,177 @@
+pipeline {
+    agent {
+        node {
+            label 'htis-prd-agt' 
+        }
+    }
+
+    environment {
+        REPO_NAME = 'kubernetes-deployments'
+        REPO_URI = 'git@github.com:hashtechinfosystems/kubernetes-deployments.git'
+        REPO_BRANCH = 'dev'
+        REPO_CREDS_ID = 'prd-git-ssh'
+        PROJECT_DIR = 'wordpress'
+        KUBECONFIG='/root/jenkins-config'
+
+    }
+
+    stages {
+        stage('Checkout') {
+            steps{
+                sh 'echo "Checking out $REPO_NAME"'
+                git url: env.REPO_URI, branch: env.REPO_BRANCH, credentialsId: env.REPO_CREDS_ID
+            }
+        }
+        stage('Verifying Namespaces') {
+            steps {
+                sh """
+                    kubectl get ns | grep calid
+                """
+            }
+        }
+        stage('Create MySQL ConfigMap') {
+            steps ("Creating ConfigMap for MySQL Configurations"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f mysql-configmap.yaml
+                    kubectl get confifmap
+                """
+            }
+        }
+        stage('Create MySQL Secret') {
+            steps ("Creating Secret for MySQL Credentials"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f mysql-secret.yaml
+                    kubectl get secret
+                """
+            }
+        }
+        stage('Create Wordpress ConfigMap') {
+            steps ("Creating ConfigMap for Wordpress Configurations"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f wp-configmap.yaml
+                    kubectl get configmap
+                """
+            }
+        }
+        stage('Create Wordpress Secret') {
+            steps ("Creating Secret for Wordpress Credentials"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f wp-secret.yaml
+                    kubectl get secret
+                """
+            }
+        }
+        stage('Create MySQL Service') {
+            steps ("Creating a service to expose MySQL Deployment"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f mysql-svc.yaml
+                    kubectl get service
+                """
+            }
+        }
+        stage('Create Wordpress Service') {
+            steps ("Creating a service to expose Wordpress Deployment"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f wp-svc.yaml
+                    kubectl get service
+                """
+            }
+        }
+        stage('Create MySQL PersistentVolume') {
+            steps ("Creating MySQL PersistentVolume"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f calid-mysql-pv.yaml
+                    kubectl get pv
+                """
+            }
+        }
+        stage('Create Wordpress PersistentVolume') {
+            steps ("Creating Wordpress PersistentVolume"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f calid-wp-pv.yaml
+                    kubectl get pv
+                """
+            }
+        }
+        stage('Create Wordpress PersistentVolumeClaim') {
+            steps ("Creating Wordpress PersistentVolumeClaim"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f wp-pvc.yaml
+                    kubectl get pvc
+                """
+            }
+        }
+        stage('Create MySQL PersistentVolumeClaim') {
+            steps ("Creating MySQL PersistentVolumeClaim"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f mysql-pvc.yaml
+                    kubectl get pvc
+                """
+            }
+        }
+        stage('Create MySQL Deployment') {
+            steps ("Creating MySQL deployment"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f mysql-deployment.yaml
+                    kubectl get deployment
+                """
+            }
+        }
+        stage('Create Wordpress Deployment') {
+            steps ("Creating Wordpress deployment"){
+                sh """
+                    cd $PROJECT_DIR/calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namesapce=calid
+                    kubectl create -f wp-deployment.yaml
+                    kubectl get deployment
+                """
+            }
+        }
+        stage('Validating Deployments') {
+            steps {
+                sh """
+                    kubectl get all -n calid
+                """
+            }
+        }
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+    }
+}
