@@ -19,9 +19,9 @@ spec:
         image: wordpress:6.5-php8.3-apache
         envFrom:
         - configMapRef:
-            name: calid-wp-config
+            name: wp-config
         - secretRef:
-            name: calid-wp-secret
+            name: wp-secret
         ports:
         - containerPort: 80
         resources:
