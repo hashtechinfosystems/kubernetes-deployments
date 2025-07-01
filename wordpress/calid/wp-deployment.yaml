@@ -10,6 +10,7 @@ spec:
       app: calid-wordpress
   template:
     metadata:
+      name: calid-wordpress
       labels:
         app: calid-wordpress
     spec:
@@ -34,6 +35,6 @@ spec:
         - name: wp-persistent-storage
           mountPath: /var/www/html
       volumes:
-      - name: calid-wp-persistent-storage
+      - name: wp-persistent-storage
         persistentVolumeClaim:
           claimName: calid-wp-pvc

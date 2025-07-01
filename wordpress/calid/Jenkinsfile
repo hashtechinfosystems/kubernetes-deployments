@@ -4,7 +4,6 @@ pipeline {
             label 'htis-prd-agt' 
         }
     }
-
     environment {
         REPO_NAME = 'kubernetes-deployments'
         REPO_URI = 'git@github.com:hashtechinfosystems/kubernetes-deployments.git'
@@ -12,7 +11,6 @@ pipeline {
         REPO_CREDS_ID = 'prd-git-ssh'
         PROJECT_DIR = 'wordpress/calid'
         KUBECONFIG='/root/jenkins-config'
-
     }
 
     stages {
@@ -33,10 +31,10 @@ pipeline {
             steps ("Creating ConfigMap for MySQL Configurations"){
                 sh """
                     cd $PROJECT_DIR
-                    echo "Changing the current context
-                    kubectl config set-context --current --namesapce=calid
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f mysql-configmap.yaml
-                    kubectl get confifmap
+                    kubectl get configmap
                 """
             }
         }
@@ -45,8 +43,19 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f mysql-secret.yaml
+                    kubectl get secret
+                """
+            }
+        }
+        stage('Create Wordpress Secret') {
+            steps ("Creating Secret for Wordpress Credentials"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=calid
+                    kubectl create -f wp-secret.yaml
                     kubectl get secret
                 """
             }
@@ -56,20 +65,9 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f wp-configmap.yaml
                     kubectl get configmap
-                """
-            }
-        }
-        stage('Create Wordpress Secret') {
-            steps ("Creating Secret for Wordpress Credentials"){
-                sh """
-                    cd $PROJECT_DIR
-                    echo "Changing the current context
-                    kubectl config set-context --current --namesapce=calid
-                    kubectl create -f wp-secret.yaml
-                    kubectl get secret
                 """
             }
         }
@@ -78,7 +76,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f mysql-svc.yaml
                     kubectl get service
                 """
@@ -89,7 +87,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f wp-svc.yaml
                     kubectl get service
                 """
@@ -100,7 +98,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f calid-mysql-pv.yaml
                     kubectl get pv
                 """
@@ -111,7 +109,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f calid-wp-pv.yaml
                     kubectl get pv
                 """
@@ -122,7 +120,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f wp-pvc.yaml
                     kubectl get pvc
                 """
@@ -133,7 +131,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f mysql-pvc.yaml
                     kubectl get pvc
                 """
@@ -144,7 +142,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f mysql-deployment.yaml
                     kubectl get deployment
                 """
@@ -155,7 +153,7 @@ pipeline {
                 sh """
                     cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=calid
                     kubectl create -f wp-deployment.yaml
                     kubectl get deployment
                 """
@@ -168,6 +166,7 @@ pipeline {
                 """
             }
         }
+    }
     post {
         success {
             echo 'Resource Deployment successful'
