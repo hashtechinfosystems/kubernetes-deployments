@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calid-mysql
-  namespace: calid
+  name: songtaba-mysql
+  namespace: songtaba
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: calid-mysql
+      app: songtaba-mysql
   template:
     metadata:
       labels:
-        app: calid-mysql
+        app: songtaba-mysql
     spec:
       containers:
-      - name: calid-mysql
+      - name: songtaba-mysql
         image: mysql:5.7
         envFrom:
         - configMapRef:
@@ -31,9 +31,9 @@ spec:
             memory: 512Mi
             cpu: 500m
         volumeMounts:
-        - name: calid-mysql-volume
+        - name: songtaba-mysql-volume
           mountPath: /var/lib/mysql
       volumes:
-      - name: calid-mysql-volume
+      - name: songtaba-mysql-volume
         persistentVolumeClaim:
-          claimName: calid-mysql-pvc
+          claimName: songtaba-mysql-pvc

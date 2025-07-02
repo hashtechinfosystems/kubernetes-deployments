@@ -1,28 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calid-mysql
-  namespace: calid
+  name: ragh-wordpress
+  namespace: ragh
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: calid-mysql
+      app: ragh-wordpress
   template:
     metadata:
+      name: ragh-wordpress
       labels:
-        app: calid-mysql
+        app: ragh-wordpress
     spec:
       containers:
-      - name: calid-mysql
-        image: mysql:5.7
+      - name: ragh-wordpress
+        image: wordpress:6.5-php8.3-apache
         envFrom:
         - configMapRef:
-            name: mysql-config
+            name: wp-config
         - secretRef:
-            name: mysql-secret
+            name: wp-secret
         ports:
-        - containerPort: 3306
+        - containerPort: 80
         resources:
           requests:
             memory: 128Mi
@@ -31,9 +32,9 @@ spec:
             memory: 512Mi
             cpu: 500m
         volumeMounts:
-        - name: calid-mysql-volume
-          mountPath: /var/lib/mysql
+        - name: wp-persistent-storage
+          mountPath: /var/www/html
       volumes:
-      - name: calid-mysql-volume
+      - name: wp-persistent-storage
         persistentVolumeClaim:
-          claimName: calid-mysql-pvc
+          claimName: ragh-wp-pvc

@@ -1,26 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calid-wordpress
-  namespace: calid
+  name: pflg-wordpress
+  namespace: pflg
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: calid-wordpress
+      app: pflg-wordpress
   template:
     metadata:
+      name: pflg-wordpress
       labels:
-        app: calid-wordpress
+        app: pflg-wordpress
     spec:
       containers:
-      - name: calid-wordpress
+      - name: pflg-wordpress
         image: wordpress:6.5-php8.3-apache
         envFrom:
         - configMapRef:
-            name: calid-wp-config
+            name: wp-config
         - secretRef:
-            name: calid-wp-secret
+            name: wp-secret
         ports:
         - containerPort: 80
         resources:
@@ -34,6 +35,6 @@ spec:
         - name: wp-persistent-storage
           mountPath: /var/www/html
       volumes:
-      - name: calid-wp-persistent-storage
+      - name: wp-persistent-storage
         persistentVolumeClaim:
-          claimName: calid-wp-pvc
+          claimName: pflg-wp-pvc

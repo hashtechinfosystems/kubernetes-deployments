@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: calid-mysql-pv
+  name: pflg-wp-pv
 spec:
   capacity:
     storage: 10Gi
@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: microk8s-hostpath
   hostPath:
-    path: /mnt/data/calid-mysql
+    path: /mnt/data/pflg-wp

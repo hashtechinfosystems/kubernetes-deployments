@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-svc
-  namespace: calid
+  namespace: ragh
 spec:
   selector:
-    app: calid-mysql
+    app: ragh-mysql
   ports:
     - protocol: TCP
       port: 3306

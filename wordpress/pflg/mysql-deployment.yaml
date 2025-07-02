@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calid-mysql
-  namespace: calid
+  name: pflg-mysql
+  namespace: pflg
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: calid-mysql
+      app: pflg-mysql
   template:
     metadata:
       labels:
-        app: calid-mysql
+        app: pflg-mysql
     spec:
       containers:
-      - name: calid-mysql
+      - name: pflg-mysql
         image: mysql:5.7
         envFrom:
         - configMapRef:
@@ -31,9 +31,9 @@ spec:
             memory: 512Mi
             cpu: 500m
         volumeMounts:
-        - name: calid-mysql-volume
+        - name: pflg-mysql-volume
           mountPath: /var/lib/mysql
       volumes:
-      - name: calid-mysql-volume
+      - name: pflg-mysql-volume
         persistentVolumeClaim:
-          claimName: calid-mysql-pvc
+          claimName: pflg-mysql-pvc

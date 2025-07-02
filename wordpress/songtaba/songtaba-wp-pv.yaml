@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: calid-wp-pv
+  name: songtaba-wp-pv
 spec:
   capacity:
     storage: 10Gi
@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: microk8s-hostpath
   hostPath:
-    path: /mnt/data/calid-wp
+    path: /mnt/data/songtaba-wp

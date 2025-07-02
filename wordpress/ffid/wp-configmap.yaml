@@ -4,6 +4,6 @@ metadata:
   name: wp-config
   namespace: ffid
 data:
-  WORDPRESS_DB_HOST: mysql-service:3306
+  WORDPRESS_DB_HOST: mysql-svc:3306
   WORDPRESS_DB_USER: admin
-  WORDPRESS_DB_NAME: wp_db
+  WORDPRESS_DB_NAME: ffid_db

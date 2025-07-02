@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-svc
-  namespace: calid
+  namespace: ptf
 spec:
   selector:
-    app: calid-mysql
+    app: ptf-mysql
   ports:
     - protocol: TCP
       port: 3306

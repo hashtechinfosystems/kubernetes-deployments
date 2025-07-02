@@ -10,6 +10,7 @@ spec:
       app: ffid-wordpress
   template:
     metadata:
+      name: ffid-wordpress
       labels:
         app: ffid-wordpress
     spec:
@@ -18,9 +19,9 @@ spec:
         image: wordpress:6.5-php8.3-apache
         envFrom:
         - configMapRef:
-            name: ffid-wp-config
+            name: wp-config
         - secretRef:
-            name: ffid-wp-secret
+            name: wp-secret
         ports:
         - containerPort: 80
         resources:
@@ -31,9 +32,9 @@ spec:
             memory: 512Mi
             cpu: 500m
         volumeMounts:
-        - name: wordpress-persistent-storage
+        - name: wp-persistent-storage
           mountPath: /var/www/html
       volumes:
-      - name: ffid-wordpress-persistent-storage
+      - name: wp-persistent-storage
         persistentVolumeClaim:
           claimName: ffid-wp-pvc

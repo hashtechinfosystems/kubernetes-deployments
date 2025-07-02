@@ -4,15 +4,13 @@ pipeline {
             label 'htis-prd-agt' 
         }
     }
-
     environment {
         REPO_NAME = 'kubernetes-deployments'
         REPO_URI = 'git@github.com:hashtechinfosystems/kubernetes-deployments.git'
         REPO_BRANCH = 'dev'
         REPO_CREDS_ID = 'prd-git-ssh'
-        PROJECT_DIR = 'wordpress'
+        PROJECT_DIR = 'wordpress/ffid'
         KUBECONFIG='/root/jenkins-config'
-
     }
 
     stages {
@@ -25,28 +23,39 @@ pipeline {
         stage('Verifying Namespaces') {
             steps {
                 sh """
-                    kubectl get ns | grep calid
+                    kubectl get ns | grep ffid
                 """
             }
         }
         stage('Create MySQL ConfigMap') {
             steps ("Creating ConfigMap for MySQL Configurations"){
                 sh """
-                    cd $PROJECT_DIR/calid
-                    echo "Changing the current context
-                    kubectl config set-context --current --namesapce=calid
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f mysql-configmap.yaml
-                    kubectl get confifmap
+                    kubectl get configmap
                 """
             }
         }
         stage('Create MySQL Secret') {
             steps ("Creating Secret for MySQL Credentials"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f mysql-secret.yaml
+                    kubectl get secret
+                """
+            }
+        }
+        stage('Create Wordpress Secret') {
+            steps ("Creating Secret for Wordpress Credentials"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=ffid
+                    kubectl create -f wp-secret.yaml
                     kubectl get secret
                 """
             }
@@ -54,31 +63,20 @@ pipeline {
         stage('Create Wordpress ConfigMap') {
             steps ("Creating ConfigMap for Wordpress Configurations"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f wp-configmap.yaml
                     kubectl get configmap
-                """
-            }
-        }
-        stage('Create Wordpress Secret') {
-            steps ("Creating Secret for Wordpress Credentials"){
-                sh """
-                    cd $PROJECT_DIR/calid
-                    echo "Changing the current context
-                    kubectl config set-context --current --namesapce=calid
-                    kubectl create -f wp-secret.yaml
-                    kubectl get secret
                 """
             }
         }
         stage('Create MySQL Service') {
             steps ("Creating a service to expose MySQL Deployment"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f mysql-svc.yaml
                     kubectl get service
                 """
@@ -87,9 +85,9 @@ pipeline {
         stage('Create Wordpress Service') {
             steps ("Creating a service to expose Wordpress Deployment"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f wp-svc.yaml
                     kubectl get service
                 """
@@ -98,10 +96,10 @@ pipeline {
         stage('Create MySQL PersistentVolume') {
             steps ("Creating MySQL PersistentVolume"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
-                    kubectl create -f calid-mysql-pv.yaml
+                    kubectl config set-context --current --namespace=ffid
+                    kubectl create -f ffid-mysql-pv.yaml
                     kubectl get pv
                 """
             }
@@ -109,10 +107,10 @@ pipeline {
         stage('Create Wordpress PersistentVolume') {
             steps ("Creating Wordpress PersistentVolume"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
-                    kubectl create -f calid-wp-pv.yaml
+                    kubectl config set-context --current --namespace=ffid
+                    kubectl create -f ffid-wp-pv.yaml
                     kubectl get pv
                 """
             }
@@ -120,9 +118,9 @@ pipeline {
         stage('Create Wordpress PersistentVolumeClaim') {
             steps ("Creating Wordpress PersistentVolumeClaim"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f wp-pvc.yaml
                     kubectl get pvc
                 """
@@ -131,9 +129,9 @@ pipeline {
         stage('Create MySQL PersistentVolumeClaim') {
             steps ("Creating MySQL PersistentVolumeClaim"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f mysql-pvc.yaml
                     kubectl get pvc
                 """
@@ -142,9 +140,9 @@ pipeline {
         stage('Create MySQL Deployment') {
             steps ("Creating MySQL deployment"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f mysql-deployment.yaml
                     kubectl get deployment
                 """
@@ -153,9 +151,9 @@ pipeline {
         stage('Create Wordpress Deployment') {
             steps ("Creating Wordpress deployment"){
                 sh """
-                    cd $PROJECT_DIR/calid
+                    cd $PROJECT_DIR
                     echo "Changing the current context"
-                    kubectl config set-context --current --namesapce=calid
+                    kubectl config set-context --current --namespace=ffid
                     kubectl create -f wp-deployment.yaml
                     kubectl get deployment
                 """
@@ -164,14 +162,21 @@ pipeline {
         stage('Validating Deployments') {
             steps {
                 sh """
-                    kubectl get all -n calid
+                    kubectl get all -n ffid
                 """
             }
         }
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
+    }
+    post {
+        success {
+            echo 'Resource Deployment successful'
+        }
+        failure {
+            echo 'Resource Deployment failed'
+        }
+        always {
+            echo 'Clean up workspace ...'
+            cleanWs()
         }
     }
 }

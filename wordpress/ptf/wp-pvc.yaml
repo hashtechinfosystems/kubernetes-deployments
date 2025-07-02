@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: calid-wp-pvc
-  namespace: calid
+  name: ptf-wp-pvc
+  namespace: ptf
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
-  volumeName: calid-wp-pv
+  volumeName: ptf-wp-pv
   storageClassName: microk8s-hostpath

@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wp-svc
-  namespace: calid
+  namespace: pflg
 spec:
   selector:
-    app: calid-wordpress
+    app: pflg-wordpress
   type: NodePort
   ports:
     - protocol: TCP

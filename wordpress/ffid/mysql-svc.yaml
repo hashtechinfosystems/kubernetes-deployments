@@ -5,7 +5,7 @@ metadata:
   namespace: ffid
 spec:
   selector:
-    app: mysql
+    app: ffid-mysql
   ports:
     - protocol: TCP
       port: 3306
