@@ -27,127 +27,127 @@ pipeline {
                 """
             }
         }
-        // stage('Create MySQL ConfigMap') {
-        //     steps ("Creating ConfigMap for MySQL Configurations"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f mysql-configmap.yaml
-        //             kubectl get configmap
-        //         """
-        //     }
-        // }
-        // stage('Create MySQL Secret') {
-        //     steps ("Creating Secret for MySQL Credentials"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f mysql-secret.yaml
-        //             kubectl get secret
-        //         """
-        //     }
-        // }
-        // stage('Create Wordpress Secret') {
-        //     steps ("Creating Secret for Wordpress Credentials"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f wp-secret.yaml
-        //             kubectl get secret
-        //         """
-        //     }
-        // }
-        // stage('Create Wordpress ConfigMap') {
-        //     steps ("Creating ConfigMap for Wordpress Configurations"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f wp-configmap.yaml
-        //             kubectl get configmap
-        //         """
-        //     }
-        // }
-        // stage('Create MySQL Service') {
-        //     steps ("Creating a service to expose MySQL Deployment"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f mysql-svc.yaml
-        //             kubectl get service
-        //         """
-        //     }
-        // }
-        // stage('Create Wordpress Service') {
-        //     steps ("Creating a service to expose Wordpress Deployment"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f wp-svc.yaml
-        //             kubectl get service
-        //         """
-        //     }
-        // }
-        // stage('Create MySQL PersistentVolume') {
-        //     steps ("Creating MySQL PersistentVolume"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f pflg-mysql-pv.yaml
-        //             kubectl get pv
-        //         """
-        //     }
-        // }
-        // stage('Create Wordpress PersistentVolume') {
-        //     steps ("Creating Wordpress PersistentVolume"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f pflg-wp-pv.yaml
-        //             kubectl get pv
-        //         """
-        //     }
-        // }
-        // stage('Create Wordpress PersistentVolumeClaim') {
-        //     steps ("Creating Wordpress PersistentVolumeClaim"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f wp-pvc.yaml
-        //             kubectl get pvc
-        //         """
-        //     }
-        // }
-        // stage('Create MySQL PersistentVolumeClaim') {
-        //     steps ("Creating MySQL PersistentVolumeClaim"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f mysql-pvc.yaml
-        //             kubectl get pvc
-        //         """
-        //     }
-        // }
-        // stage('Create MySQL Deployment') {
-        //     steps ("Creating MySQL deployment"){
-        //         sh """
-        //             cd $PROJECT_DIR
-        //             echo "Changing the current context"
-        //             kubectl config set-context --current --namespace=pflg
-        //             kubectl create -f mysql-deployment.yaml
-        //             kubectl get deployment
-        //         """
-        //     }
-        // }
+        stage('Create MySQL ConfigMap') {
+            steps ("Creating ConfigMap for MySQL Configurations"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f mysql-configmap.yaml
+                    kubectl get configmap
+                """
+            }
+        }
+        stage('Create MySQL Secret') {
+            steps ("Creating Secret for MySQL Credentials"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f mysql-secret.yaml
+                    kubectl get secret
+                """
+            }
+        }
+        stage('Create Wordpress Secret') {
+            steps ("Creating Secret for Wordpress Credentials"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f wp-secret.yaml
+                    kubectl get secret
+                """
+            }
+        }
+        stage('Create Wordpress ConfigMap') {
+            steps ("Creating ConfigMap for Wordpress Configurations"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f wp-configmap.yaml
+                    kubectl get configmap
+                """
+            }
+        }
+        stage('Create MySQL Service') {
+            steps ("Creating a service to expose MySQL Deployment"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f mysql-svc.yaml
+                    kubectl get service
+                """
+            }
+        }
+        stage('Create Wordpress Service') {
+            steps ("Creating a service to expose Wordpress Deployment"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f wp-svc.yaml
+                    kubectl get service
+                """
+            }
+        }
+        stage('Create MySQL PersistentVolume') {
+            steps ("Creating MySQL PersistentVolume"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f pflg-mysql-pv.yaml
+                    kubectl get pv
+                """
+            }
+        }
+        stage('Create Wordpress PersistentVolume') {
+            steps ("Creating Wordpress PersistentVolume"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f pflg-wp-pv.yaml
+                    kubectl get pv
+                """
+            }
+        }
+        stage('Create Wordpress PersistentVolumeClaim') {
+            steps ("Creating Wordpress PersistentVolumeClaim"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f wp-pvc.yaml
+                    kubectl get pvc
+                """
+            }
+        }
+        stage('Create MySQL PersistentVolumeClaim') {
+            steps ("Creating MySQL PersistentVolumeClaim"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f mysql-pvc.yaml
+                    kubectl get pvc
+                """
+            }
+        }
+        stage('Create MySQL Deployment') {
+            steps ("Creating MySQL deployment"){
+                sh """
+                    cd $PROJECT_DIR
+                    echo "Changing the current context"
+                    kubectl config set-context --current --namespace=pflg
+                    kubectl create -f mysql-deployment.yaml
+                    kubectl get deployment
+                """
+            }
+        }
         stage('Create Wordpress Deployment') {
             steps ("Creating Wordpress deployment"){
                 sh """
