@@ -33,7 +33,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f mysql-configmap.yaml
+                    kubectl apply -f mysql-configmap.yaml
                     kubectl get configmap
                 """
             }
@@ -44,7 +44,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f mysql-secret.yaml
+                    kubectl apply -f mysql-secret.yaml
                     kubectl get secret
                 """
             }
@@ -55,7 +55,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f wp-secret.yaml
+                    kubectl apply -f wp-secret.yaml
                     kubectl get secret
                 """
             }
@@ -66,7 +66,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f wp-configmap.yaml
+                    kubectl apply -f wp-configmap.yaml
                     kubectl get configmap
                 """
             }
@@ -77,7 +77,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f mysql-svc.yaml
+                    kubectl apply -f mysql-svc.yaml
                     kubectl get service
                 """
             }
@@ -88,7 +88,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f wp-svc.yaml
+                    kubectl apply -f wp-svc.yaml
                     kubectl get service
                 """
             }
@@ -99,7 +99,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f ragh-mysql-pv.yaml
+                    kubectl apply -f ragh-mysql-pv.yaml
                     kubectl get pv
                 """
             }
@@ -110,7 +110,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f ragh-wp-pv.yaml
+                    kubectl apply -f ragh-wp-pv.yaml
                     kubectl get pv
                 """
             }
@@ -121,7 +121,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f wp-pvc.yaml
+                    kubectl apply -f wp-pvc.yaml
                     kubectl get pvc
                 """
             }
@@ -132,7 +132,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f mysql-pvc.yaml
+                    kubectl apply -f mysql-pvc.yaml
                     kubectl get pvc
                 """
             }
@@ -143,7 +143,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f mysql-deployment.yaml
+                    kubectl apply -f mysql-deployment.yaml
                     kubectl get deployment
                 """
             }
@@ -154,7 +154,7 @@ pipeline {
                     cd $PROJECT_DIR
                     echo "Changing the current context"
                     kubectl config set-context --current --namespace=ragh
-                    kubectl create -f wp-deployment.yaml
+                    kubectl apply -f wp-deployment.yaml
                     kubectl get deployment
                 """
             }
