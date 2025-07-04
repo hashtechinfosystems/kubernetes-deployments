@@ -23,13 +23,6 @@ spec:
             name: mysql-secret
         ports:
         - containerPort: 3306
-        resources:
-          requests:
-            memory: 128Mi
-            cpu: 250m
-          limits:
-            memory: 512Mi
-            cpu: 500m
         volumeMounts:
         - name: ptf-mysql-volume
           mountPath: /var/lib/mysql
