@@ -24,13 +24,6 @@ spec:
             name: wp-secret
         ports:
         - containerPort: 80
-        resources:
-          requests:
-            memory: 128Mi
-            cpu: 250m
-          limits:
-            memory: 512Mi
-            cpu: 500m
         volumeMounts:
         - name: wp-persistent-storage
           mountPath: /var/www/html
