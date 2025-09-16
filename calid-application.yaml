@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: calid-argo-application
+  namespace: argo-cd
+spec:
+  project: default
+  source:
+    path: wordpress/calid
+    repoURL: https://github.com/hashtechinfosystems/kubernetes-deployments.git
+    targetRevision: dev
+  destination:
+    namespace: calid
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
